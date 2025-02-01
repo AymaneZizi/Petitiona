@@ -231,45 +231,52 @@ class Admin {
         $petition_id = isset($_GET['petition_id']) ? intval($_GET['petition_id']) : 0;
         ?>
         <div class="wrap">
-            <h1>Petition Signatures</h1>
-            
-            <div class="tablenav top">
-                <div class="alignleft actions">
-                    <select id="petition-filter">
-                       <option value="">Select Petition</option>
-                       <?php
-                       $petitions = $this->database->getAllPetitions();
-                       foreach ($petitions as $petition) {
-                           printf(
-                               '<option value="%d" %s>%s</option>',
-                               esc_attr($petition->id),
-                               selected($petition_id, $petition->id, false),
-                               esc_html($petition->title)
-                           );
-                       }
-                       ?>
-                   </select>
-                   <?php if ($petition_id): ?>
+        <h1><?php esc_html_e('Petition Signatures', 'petitiona'); ?></h1>
+        
+        <div class="tablenav top">
+            <div class="alignleft actions">
+                <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>" class="petition-filter-form">
+                    <input type="hidden" name="page" value="petitiona-signatures">
+                    <select id="petition-filter" name="petition_id" class="petition-select">
+                        <option value=""><?php esc_html_e('Select Petition', 'petitiona'); ?></option>
+                        <?php
+                        $petitions = $this->database->getAllPetitions();
+                        foreach ($petitions as $petition) {
+                            printf(
+                                '<option value="%d" %s>%s</option>',
+                                esc_attr($petition->id),
+                                selected($petition_id, $petition->id, false),
+                                esc_html($petition->title)
+                            );
+                        }
+                        ?>
+                    </select>
+                    <input type="submit" class="button" value="<?php esc_attr_e('Filter', 'petitiona'); ?>">
+                    <?php if ($petition_id): ?>
                         <a href="<?php echo esc_url(wp_nonce_url(
                             admin_url('admin.php?page=petitiona-signatures&petition_id=' . $petition_id . '&action=export'),
                             'export_signatures_' . $petition_id
-                        )); ?>" class="button action">Export CSV</a>
+                        )); ?>" class="button action export-button">
+                            <?php esc_html_e('Export CSV', 'petitiona'); ?>
+                        </a>
                     <?php endif; ?>
-                </div>
+                </form>
             </div>
-
+        </div>
+        
+        <div class="table-wrapper">
             <table class="wp-list-table widefat fixed striped">
                <thead>
                    <tr>
-                       <th>Email</th>
-                       <th>First Name</th>
-                       <th>Last Name</th>
-                       <th>Location</th>
-                       <th>Address</th>
-                       <th>Country</th>
-                       <th>Phone Number</th>
-                       <th>Comment</th>
-                       <th>Actions</th>
+                        <th class="column-email">Email</th>
+                        <th class="column-firstname">First Name</th>
+                        <th class="column-lastname">Last Name</th>
+                        <th class="column-location">Location</th>
+                        <th class="column-address">Address</th>
+                        <th class="column-country">Country</th>
+                        <th class="column-phone">Phone Number</th>
+                        <th class="column-comment">Comment</th>
+                        <th class="column-actions">Actions</th>
                    </tr>
                </thead>
                <tbody>
@@ -307,29 +314,26 @@ class Admin {
                    ?>
                </tbody>
            </table>
-       </div>
+        </div>
+    </div>
 
        <script>
-       jQuery(document).ready(function($) {
-           $('#petition-filter').on('change', function() {
-               window.location.href = '<?php echo esc_js(admin_url('admin.php')); ?>?page=petitiona-signatures&petition_id=' + $(this).val();
-           });
-
-           $('.delete-signature').on('click', function(e) {
-               e.preventDefault();
-               if (!confirm('Are you sure you want to delete this signature?')) return;
-               
-               var row = $(this).closest('tr');
-               $.post(ajaxurl, {
-                   action: 'delete_signature',
-                   signature_id: $(this).data('id'),
-                   _ajax_nonce: '<?php echo esc_js(wp_create_nonce("delete_signature")); ?>'
-               }, function() {
-                   row.fadeOut();
-               });
-           });
-       });
-       </script>
+        jQuery(document).ready(function($) {
+            $('.delete-signature').on('click', function(e) {
+                e.preventDefault();
+                if (!confirm('<?php esc_html_e('Are you sure you want to delete this signature?', 'petitiona'); ?>')) return;
+                
+                var row = $(this).closest('tr');
+                $.post(ajaxurl, {
+                    action: 'delete_signature',
+                    signature_id: $(this).data('id'),
+                    _ajax_nonce: '<?php echo esc_js(wp_create_nonce("delete_signature")); ?>'
+                }, function() {
+                    row.fadeOut();
+                });
+            });
+        });
+        </script>
        <?php
     }
 

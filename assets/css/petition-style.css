@@ -7,6 +7,106 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.petition-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 782px) {
+    .tablenav,
+    .tablenav .actions,
+    .tablenav.top {
+        display: block !important;
+        width: 100% !important;
+        margin: 8px 0 !important;
+    }
+
+    .petition-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 10px 0;
+    }
+    
+    .petition-select,
+    .button {
+        width: 100%;
+        max-width: none;
+        margin: 5px 0;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+    }
+    
+    .export-button {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+    
+    .table-responsive {
+        margin: 0 -10px;
+        padding: 0 10px;
+        width: calc(100% + 20px);
+    }
+
+    .wp-list-table th,
+    .wp-list-table td {
+        display: table-cell !important;
+        padding: 8px !important;
+        min-width: 120px;
+    }
+    
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    #wpbody-content {
+        padding-bottom: 100px;
+    }
+    
+    .wp-list-table {
+        min-width: 900px;
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    .wp-list-table .column-email { width: 15%; }
+    .wp-list-table .column-firstname { width: 10%; }
+    .wp-list-table .column-lastname { width: 10%; }
+    .wp-list-table .column-location { width: 10%; }
+    .wp-list-table .column-address { width: 15%; }
+    .wp-list-table .column-country { width: 10%; }
+    .wp-list-table .column-phone { width: 15%; }
+    .wp-list-table .column-comment { width: 15%; }
+    .wp-list-table .column-actions { width: 10%; }
+}
+        
+.petition-select {
+    min-width: 200px;
+    max-width: 100%;
+}
+
+.wp-list-table th {
+    white-space: nowrap;
+    padding: 8px 10px !important;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+        
 .petitiona-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -244,24 +344,4 @@
     background: #fde8e8;
     color: #9b1c1c;
     border: 1px solid #f98080;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .petitiona-form-wrapper {
-        padding: 1.5rem;
-        margin: 1rem;
-    }
-
-    .petitiona-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .petitiona-form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .petitiona-submit-button {
-        width: 100%;
-    }
 }
